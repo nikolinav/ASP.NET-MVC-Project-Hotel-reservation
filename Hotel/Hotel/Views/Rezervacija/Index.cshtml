@@ -1,0 +1,35 @@
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<Hotel.Models.Rezervacija>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<div class="well clearfix">
+
+    <div class="col-md-6">
+        <span>Sortiraj rezervacije:</span>
+        @using (Html.BeginForm("Index", "Rezervacija", FormMethod.Get))
+        {
+            @Html.DropDownList("SortType", ViewBag.SortTypes as SelectList, new { @class = "form-control col-md-6" })
+            <input type="submit" value="Sort" class="btn btn-warning" />
+        }
+    </div>
+</div>
+
+@{
+    Html.RenderPartial("_RezervacijaList");
+}
+
+<div id="page">
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortType = ViewBag.CurrentSortType }))
+
+</div>

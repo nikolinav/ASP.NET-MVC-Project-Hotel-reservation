@@ -1,0 +1,60 @@
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<Hotel.Models.Smestaj>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+    <button id="filter" class="btn btn-default btn-lg pull-right">Filter</button>
+</p>
+
+
+<div id="filterForm" class="hidden">
+
+    @using (Html.BeginForm("Filter", "Smestaj", FormMethod.Post))
+    {
+        @Html.Label("Smestaj")
+        @Html.TextBox("SmestajName", null, new { @class = "form-control" })
+        @Html.Label("Adresa")
+        @Html.TextBox("AdresaName", null, new { @class = "form-control" })
+       
+
+        <input type="submit" class="btn btn-info" />
+    }
+
+</div>
+
+<div class="well clearfix">
+
+    <div class="col-md-6">
+        <span>Sortiraj Smestaj:</span>
+        @using (Html.BeginForm("Index", "Smestaj", FormMethod.Get))
+        {
+            @Html.DropDownList("SortType", ViewBag.SortTypes as SelectList, new { @class = "form-control col-md-6" })
+            <input type="submit" value="Sort" class="btn btn-warning" />
+        }
+    </div>
+</div>
+
+
+@{
+    Html.RenderPartial("_SmestajList");
+}
+
+<div id="page">
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortType = ViewBag.CurrentSortType }))
+
+</div>
+
+
+
+@section scripts
+{
+    <script src="~/Scripts/Filter.js"></script>
+}

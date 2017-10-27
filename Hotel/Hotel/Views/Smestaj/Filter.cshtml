@@ -1,0 +1,13 @@
+﻿
+@model IEnumerable<Hotel.Models.Smestaj>
+@{
+    ViewBag.Title = "Filter";
+}
+
+
+
+@Html.ActionLink("Go Back", "Index")
+
+@{
+    Html.RenderPartial("_SmestajList");
+}
